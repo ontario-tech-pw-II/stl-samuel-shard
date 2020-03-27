@@ -1,7 +1,8 @@
-// Student class is implemented based on string and do not need any change
+// Student class is implemented based on string and does not need any changes
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <list>
 
 using namespace std;
@@ -118,11 +119,55 @@ Student::~Student()
 }
 
 int main()
-{  
+{ 
+    Student students[100];
 
-	// Write your code for Task 1
-		
+    char name[100];
+    double grade;
+    int numStudents = 0; 
+    while(true){
+        cout << "Enter student " << numStudents+1 << " (name ENTER grade, type \"q\" to finish):\n";
+        cin >> name;
+        if (name[0] == 'q'){
+            cout << "Finished.\n";
+            break;
+        }
+        cin >> grade;
+        Student temp(name, grade);
+        students[numStudents] = temp;
+        numStudents++;
+        if(numStudents == 100){
+            cout << "Max of 100 students has been reached, moving on.\n";
+            break;
+        }
+    }
+    cout << numStudents << " students have been stored.\n";
+    for(int j = 0; j<numStudents; j++){
+        cout << students[j] << endl;
+    }
+
+    cout << "\nNow storing students in a list in order of increasing grade.\n";
+    list<Student> classroom;
+    list<Student>::iterator index;
+    for(int i=0; i<numStudents; i++){
+        index = classroom.begin();
+        //insert students in order of increasing grade
+        while(students[i].getgrade() > (*index).getgrade() && index != classroom.end()){
+            ++index;
+        }
+        classroom.insert(index, students[i]);
+
+    }
+
+    for(index = classroom.begin(); index != classroom.end(); index++){
+        cout << *index << endl;
+    }
+
+    cout << "\nNow storing students in a list in order of decreasing grade.\n";
+    list<Student>::reverse_iterator rev;
+    for(rev = classroom.rbegin(); rev != classroom.rend(); rev++){
+        cout << *rev << endl;
+    }
+
+    return 0;
 }
-
-
-
